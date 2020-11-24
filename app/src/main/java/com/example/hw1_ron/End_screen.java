@@ -42,11 +42,11 @@ public class End_screen extends AppCompatActivity {
     public void setWinner(int score){
         switch (score){
             case 0:
-               end_LBL_result.setText("The Winner Is Shahar");
+               end_LBL_result.setText("The Winner Is Linda");
                 end_IMG_player.setImageResource(R.drawable.img_player_one);
                 break;
             case 1:
-                end_LBL_result.setText("The Winner Is Ron");
+                end_LBL_result.setText("The Winner Is Jon");
                 end_IMG_player.setImageResource(R.drawable.img_player_two);
                 break;
             case 2:

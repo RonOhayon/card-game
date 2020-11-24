@@ -61,7 +61,7 @@ public class gameActivity extends AppCompatActivity {
                     game_LBL_playerTwo.setText(""+scoreP2);
                 }
                 counter ++;
-                if(counter==3){
+                if(counter==25){
                     int winner=setWinner(scoreP1,scoreP2);
                     openWinView(winner);
                     closeActivity();
