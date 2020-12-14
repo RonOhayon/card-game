@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/teal">
+    android:background="@drawable/img_menu_back">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/teal_2"
             android:text="Start"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:textSize="40dp"
             android:layout_centerInParent="true"
             />
@@ -26,26 +26,21 @@
             android:id="@+id/main_LBL_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="War thre card game"
+            android:text="War the card game"
             android:textSize="30dp"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:layout_above="@id/main_btn_start"
             android:layout_centerHorizontal="true"
+
             />
         <TextView
             android:id="@+id/main_LBL_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="By Ron Ohayon"
-            android:layout_alignParentBottom="true"/>
+            android:text="v2.0"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/white"/>
 
-        <ImageView
-            android:id="@+id/main_img_logo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/img_logo"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/main_LBL_title"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

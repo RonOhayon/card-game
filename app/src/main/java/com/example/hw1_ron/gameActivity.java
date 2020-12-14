@@ -10,24 +10,28 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class gameActivity extends AppCompatActivity {
     private ImageView game_IMG_card1;
     private ImageView game_IMG_card2;
     private TextView game_LBL_playerOne;
     private TextView game_LBL_playerTwo;
-    private Button game_BTN_play;
+    private ImageButton game_BTN_play;
     private Deck deck;
     private ArrayList<Card> playerOne;
     private ArrayList<Card> playerTwo;
-    private int counter = 0;
     private int scoreP1 = 0;
     private int scoreP2 = 0;
-
+    private  int counter = 0;
+    final int DELAY =1000;
+    private Timer carousalTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +48,7 @@ public class gameActivity extends AppCompatActivity {
         //set players
         setHands(deck, playerOne, playerTwo);
         initView();
-
-        game_BTN_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playView(playerOne,playerTwo,counter);
-                int numP1 = playerOne.get(counter).getCardNum();
-                int numP2 = playerTwo.get(counter).getCardNum();
-                // game score
-                if(numP1 > numP2) {
-                    scoreP1++;
-                    game_LBL_playerOne.setText(""+scoreP1);
-                }
-                else if(numP1 < numP2){
-                    scoreP2++;
-                    game_LBL_playerTwo.setText(""+scoreP2);
-                }
-                counter ++;
-                if(counter==25){
-                    int winner=setWinner(scoreP1,scoreP2);
-                    openWinView(winner);
-                    closeActivity();
-                }
-            }
-        });
-
+        setBTN();
     }
 
     public void setHands(Deck deck, ArrayList<Card> playerOne, ArrayList<Card> playerTwo) {
@@ -93,7 +73,14 @@ public class gameActivity extends AppCompatActivity {
 
     }
 
-    public void playView(ArrayList<Card> playerOne, ArrayList<Card> playerTwo, int counter) {
+    public void setBTN(){
+        game_BTN_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { startGame(); }
+        });
+    }
+
+    private void playView(ArrayList<Card> playerOne, ArrayList<Card> playerTwo, int counter) {
 
         //set player1 image to the card
         int numP1 = playerOne.get(counter).getCardNum();
@@ -112,7 +99,7 @@ public class gameActivity extends AppCompatActivity {
 
     }
 
-    public String intToString(int num) {
+    private String intToString(int num) {
         String name = "";
         switch (num) {
             case 0:
@@ -161,23 +148,81 @@ public class gameActivity extends AppCompatActivity {
     }
 
     private void openWinView(int winner) {
+        int val = (scoreP1>scoreP2 ? scoreP1:scoreP2);
         Intent myIntent = new Intent(this, End_screen.class);
-         myIntent.putExtra(End_screen.EXTRA_KEY_SCORE,winner);
+        myIntent.putExtra(End_screen.EXTRA_KEY_WIN,winner);
+        myIntent.putExtra(End_screen.EXTRA_KEY_SCORE,val);
         this.startActivity(myIntent);
 
     }
-    public int setWinner(int scoreP1,int scoreP2){
-        if (scoreP1>scoreP2)return 0 ;
-        else if (scoreP1<scoreP2)return 1;
+
+    private int setWinner(int scoreP1,int scoreP2){
+        if (scoreP1>scoreP2) return 0 ;
+        else if (scoreP1<scoreP2) return 1;
         else return 2;
     }
+
     private void closeActivity() {
         finish();
     }
 
+    private int gameSec(ArrayList<Card> playerOne,ArrayList<Card> playerTwo){
+        if(counter==5){
+            endGame();
+        }
+        playView(playerOne,playerTwo,counter);
+        int numP1 = playerOne.get(counter).getCardNum();
+        int numP2 = playerTwo.get(counter).getCardNum();
+
+        // game score
+        if(numP1 > numP2) {
+            scoreP1++;
+            game_LBL_playerOne.setText(""+scoreP1);
+        }
+        else if(numP1 < numP2){
+            scoreP2++;
+            game_LBL_playerTwo.setText(""+scoreP2);
+        }
+       return counter ++;
+
+    }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopGame();
+    }
+
+    private void startGame(){
+        carousalTimer = new Timer();
+        carousalTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameSec(playerOne,playerTwo);
+                    }
+                });
+            }
+        }, 0, DELAY);
+
+    }
+
+    private void stopGame(){
+        carousalTimer.cancel();
+    }
+
+    private void endGame(){
+            int winner = setWinner(scoreP1, scoreP2);
+            carousalTimer.cancel();
+            openWinView(winner);
+            closeActivity();
     }
 }
