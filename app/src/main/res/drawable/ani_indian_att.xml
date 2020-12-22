@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/img_indian_att_0"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_0"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_1"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_2"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_3"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_4"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_5"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_6"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_7"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_8"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_9"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_10"
+        android:duration="20">
+    </item>
+    <item android:drawable="@drawable/img_indian_att_11"
+        android:duration="20">
+    </item>
+</animation-list>
+
+
