@@ -37,7 +37,7 @@
                     android:id="@+id/end_BTN_win_list"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:text="winner list" />
+                    android:text="Add to List" />
 
                 <Button
                     android:id="@+id/end_BTN_close"

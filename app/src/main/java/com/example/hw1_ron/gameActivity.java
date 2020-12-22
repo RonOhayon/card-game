@@ -19,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class gameActivity extends AppCompatActivity {
+    public static final String EXTRA_KEY_SCORE = "EXTRA_KEY_SCORE";
+    public static final String EXTRA_KEY_WIN = "EXTRA_KEY_WIN";
     private ImageView game_IMG_card1;
     private ImageView game_IMG_card2;
     private TextView game_LBL_playerOne;
@@ -30,7 +32,7 @@ public class gameActivity extends AppCompatActivity {
     private int scoreP1 = 0;
     private int scoreP2 = 0;
     private  int counter = 0;
-    final int DELAY =1000;
+    final int DELAY =500;
     private Timer carousalTimer;
 
     @Override
@@ -147,14 +149,6 @@ public class gameActivity extends AppCompatActivity {
         return name;
     }
 
-    private void openWinView(int winner) {
-        int val = (scoreP1>scoreP2 ? scoreP1:scoreP2);
-        Intent myIntent = new Intent(this, End_screen.class);
-        myIntent.putExtra(End_screen.EXTRA_KEY_WIN,winner);
-        myIntent.putExtra(End_screen.EXTRA_KEY_SCORE,val);
-        this.startActivity(myIntent);
-
-    }
 
     private int setWinner(int scoreP1,int scoreP2){
         if (scoreP1>scoreP2) return 0 ;
@@ -167,7 +161,7 @@ public class gameActivity extends AppCompatActivity {
     }
 
     private int gameSec(ArrayList<Card> playerOne,ArrayList<Card> playerTwo){
-        if(counter==5){
+        if(counter==3){
             endGame();
         }
         playView(playerOne,playerTwo,counter);
@@ -224,5 +218,14 @@ public class gameActivity extends AppCompatActivity {
             carousalTimer.cancel();
             openWinView(winner);
             closeActivity();
+    }
+
+    private void openWinView(int winner) {
+        int val = (scoreP1>scoreP2 ? scoreP1:scoreP2);
+        Intent myIntent = new Intent(this, End_screen.class);
+        myIntent.putExtra(End_screen.EXTRA_KEY_WIN,winner);
+        myIntent.putExtra(End_screen.EXTRA_KEY_SCORE,val);
+        this.startActivity(myIntent);
+
     }
 }

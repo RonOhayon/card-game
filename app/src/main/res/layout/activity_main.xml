@@ -11,16 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <Button
-            android:id="@+id/main_btn_start"
+
+        <LinearLayout
+            android:id="@+id/main_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/teal_2"
-            android:text="Start"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:layout_centerInParent="true"
-            />
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <Button
+                android:id="@+id/main_btn_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/teal_2"
+                android:text="Start"
+                android:textColor="@color/white"
+                android:textSize="40dp" />
+
+            <Button
+                android:id="@+id/main_btn_winList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/teal_2"
+                android:text="Winner list"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/main_LBL_title"
@@ -29,7 +48,7 @@
             android:text="War the card game"
             android:textSize="30dp"
             android:textColor="@color/white"
-            android:layout_above="@id/main_btn_start"
+           android:layout_above="@id/main_layout"
             android:layout_centerHorizontal="true"
 
             />
