@@ -6,7 +6,6 @@ public class Winner {
     private double latitude;
     private double longitude;
 
-    public Winner(){}
 
     public Winner(String name, int score, double latitude, double longitude) {
         this.name = name;

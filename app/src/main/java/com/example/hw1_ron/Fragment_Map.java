@@ -1,6 +1,7 @@
 package com.example.hw1_ron;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +57,27 @@ public class Fragment_Map extends Fragment {
         });
     }
 
-    public void setOnPosition(long latitude , long longitude){
+    public void setOnPosition(double latitude ,double longitude){
+        LatLng latLng = new LatLng(latitude,longitude);
+        Log.d("pff", "setOnPosition: " + latitude +":" + longitude);
         smp.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                setOnPosition(latitude,longitude);
-            }
-        });
+                        MarkerOptions markerOptions = new MarkerOptions();
 
-    }
+                        markerOptions.position(latLng);
+
+                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+
+                        googleMap.clear();
+
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+
+                        googleMap.addMarker(markerOptions);
+
+
+                    }
+                });
+            }
 }
+

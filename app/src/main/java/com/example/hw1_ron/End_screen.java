@@ -16,6 +16,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.GeolocationPermissions;
@@ -51,8 +52,10 @@ public class End_screen extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_end_screen);
@@ -62,7 +65,6 @@ public class End_screen extends AppCompatActivity {
         initButton();
         setWinner(winCon);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
 
 
     }
@@ -138,8 +140,8 @@ public class End_screen extends AppCompatActivity {
     }
 
     private void openWinListWithWinner() {
-        getLocation();
         String name = winCon == 1 ? "DirtyJack" : "WildHorse";
+        setCoordinate();
         Intent myIntent = new Intent(this, Winner_list.class);
         myIntent.putExtra(Winner_list.EXTRA_KEY_SCORE, score);
         myIntent.putExtra(Winner_list.EXTRA_KEY_NAME, name);
@@ -156,29 +158,39 @@ public class End_screen extends AppCompatActivity {
     }
 
 
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(End_screen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-           ActivityCompat.requestPermissions(End_screen.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
+    private void setCoordinate() {
+        Location location = getLastKnownLocation();
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
 
+    }
+    LocationManager mLocationManager;
 
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null) {
-                    Geocoder geocoder = new Geocoder(End_screen.this, Locale.getDefault());
-                    Locale.getDefault();
-                    try {
-                        List<Address> address = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        latitude = address.get(0).getLatitude();
-                        longitude = address.get(0).getLongitude();
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
+    private Location getLastKnownLocation() {
+
+        if (ActivityCompat.checkSelfPermission(End_screen.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+            List<String> providers = mLocationManager.getProviders(true);
+            Location bestLocation = null;
+            for (String provider : providers) {
+                Location l = mLocationManager.getLastKnownLocation(provider);
+                if (l == null) {
+                    continue;
+                }
+                if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                    // Found best last known location: %s", l);
+                    bestLocation = l;
                 }
             }
-        });
+            return bestLocation;
+        }
+        else {
+        ActivityCompat.requestPermissions(End_screen.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+        getLastKnownLocation();
+        //get location again after granting permission
+        }
+        return null;
     }
+
 }
+
